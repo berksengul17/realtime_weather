@@ -1,5 +1,8 @@
+import controller.WeatherController;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        WeatherController controller = new WeatherController();
+        controller.initApp();
     }
 }

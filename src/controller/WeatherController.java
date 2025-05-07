@@ -18,6 +18,7 @@ import view.UnitSelectionView;
 import javax.swing.SwingUtilities;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -31,9 +32,10 @@ public class WeatherController {
     private final StatsView statsView;
     private final UnitSelectionView unitSelectionView;
 
-    public WeatherController(WeatherDataManager model) {
-        this.model = model;
+    public WeatherController() {
         this.cities = loadCities();
+        List<City> trackedCities = Arrays.asList(this.cities.get(0));
+        this.model = new WeatherDataManager(cities, trackedCities, TempUnit.CELSIUS, LocalDate.now());
 
         // 1) Instantiate views
         this.citySelectionView    = new CitySelectionView();
@@ -106,7 +108,7 @@ public class WeatherController {
         model.notifyObservers();  // update all observer-views
     }
 
-    public List<City> loadCities() {
+    private List<City> loadCities() {
         IWeatherDataLoader loader = new CSVWeatherDataLoader();
         try {
             return loader.load("./weather_data.csv");
