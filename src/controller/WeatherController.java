@@ -34,7 +34,7 @@ public class WeatherController {
 
     public WeatherController() {
         this.cities = loadCities();
-        List<City> trackedCities = Arrays.asList(this.cities.get(0));
+        List<City> trackedCities = Arrays.asList(this.cities.get(0), this.cities.get(1), this.cities.get(2), this.cities.get(3), this.cities.get(4));
         this.model = new WeatherDataManager(cities, trackedCities, TempUnit.CELSIUS, LocalDate.now());
 
         // 1) Instantiate views
@@ -75,7 +75,7 @@ public class WeatherController {
             model.setTempUnit(unit);
         });
 
-        // Tracked-cities refresh (e.g. on startup or manual “refresh” button)
+        // Tracked-cities refresh (e.g. on startup or manual "refresh" button)
         trackedCitiesView.addRefreshListener((LocalDate date) -> {
             Map<String, WeatherRecord> current = null;
             try {

@@ -27,6 +27,7 @@ public class WeatherRecord {
         this.temperature = temperature;
         this.humidity = humidity;
         this.windSpeed = windSpeed;
+        this.weatherCondition = weatherCondition;
         this.isValidWeatherRecord = true;
     }
 

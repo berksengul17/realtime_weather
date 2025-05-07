@@ -12,7 +12,7 @@ import javax.swing.*;
 /**
  * Panel with radio buttons for unit selection.
  * Implements WeatherObserver so it can re-sync its buttons
- * whenever the model’s unit changes.
+ * whenever the model's unit changes.
  */
 public class UnitSelectionView extends JPanel implements WeatherObserver {
     private final JRadioButton celsiusBtn;
@@ -20,20 +20,31 @@ public class UnitSelectionView extends JPanel implements WeatherObserver {
     private UnitSelectionListener listener;
 
     /**
-     * Supplier that returns the “current” unit from the model.
+     * Supplier that returns the "current" unit from the model.
      * Must be set by the controller at startup.
      */
     private Supplier<TempUnit> unitSupplier;
 
     public UnitSelectionView() {
-        celsiusBtn    = new JRadioButton("Celsius");
+        celsiusBtn = new JRadioButton("Celsius");
         fahrenheitBtn = new JRadioButton("Fahrenheit");
         initComponents();
     }
 
     private void initComponents() {
         setBorder(BorderFactory.createTitledBorder("Temperature Unit"));
-        setLayout(new GridLayout(2, 1));
+        
+        // Use more vertical space for a more prominent display
+        setLayout(new GridLayout(2, 1, 0, 10));
+        setPreferredSize(new Dimension(180, 100));
+        
+        // Make radio buttons bigger
+        celsiusBtn.setFont(new Font(celsiusBtn.getFont().getName(), Font.PLAIN, 14));
+        fahrenheitBtn.setFont(new Font(fahrenheitBtn.getFont().getName(), Font.PLAIN, 14));
+        
+        // Add padding around radio buttons
+        celsiusBtn.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 5));
+        fahrenheitBtn.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 5));
 
         ButtonGroup grp = new ButtonGroup();
         grp.add(celsiusBtn);
@@ -41,6 +52,9 @@ public class UnitSelectionView extends JPanel implements WeatherObserver {
 
         add(celsiusBtn);
         add(fahrenheitBtn);
+        
+        // Select Celsius by default
+        celsiusBtn.setSelected(true);
 
         // User clicks → notify controller
         celsiusBtn.addActionListener(e -> {

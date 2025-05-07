@@ -58,11 +58,17 @@ public class WeatherDataManager implements WeatherSubject {
 
     public void setTempUnit(TempUnit tempUnit) {
         this.tempUnit = tempUnit;
+        notifyObservers();
     }
 
     public List<City> getTrackedCities() throws WeatherDataManagerNotValidException {
         checkValidity();
         return trackedCities;
+    }
+
+    public List<City> getCities() throws WeatherDataManagerNotValidException {
+        checkValidity();
+        return cities;
     }
 
     public Map<String, WeatherRecord> getTrackedCitiesWeather(LocalDate date) throws WeatherDataManagerNotValidException {
@@ -102,7 +108,9 @@ public class WeatherDataManager implements WeatherSubject {
 
     @Override
     public void notifyObservers() {
-        
+        for (WeatherObserver observer : observers) {
+            observer.update(this);
+        }
     }
 
     private void checkValidity() throws WeatherDataManagerNotValidException {
