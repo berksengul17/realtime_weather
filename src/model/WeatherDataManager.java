@@ -1,13 +1,11 @@
 package model;
 
-import java.util.List;
-
 import enums.TempUnit;
 import exception.WeatherDataManagerNotValidException;
-import exception.WeatherStatsNotValidException;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import view.WeatherObserver;
 
 public class WeatherDataManager implements WeatherSubject {
 
@@ -53,14 +51,17 @@ public class WeatherDataManager implements WeatherSubject {
         this.tempUnit = tempUnit;
     }
 
+    @Override
     public void addObserver(WeatherObserver observer) {
         observers.add(observer);
     }
 
+    @Override
     public void removeObserver(WeatherObserver observer) {
         observers.remove(observer);
     }
 
+    @Override
     public void notifyObservers() {
         
     }

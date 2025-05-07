@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import model.City;
+import model.WeatherStats;
 
 public class StatCalculator {
 

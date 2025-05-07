@@ -1,30 +1,25 @@
+
+
 // File: src/view/TrackedCitiesView.java
 package view;
 
-import controller.WeatherController;
-import model.UnitType;
-import model.WeatherRecord;
-import model.WeatherSubject;
-import model.WeatherObserver;
-
-import javax.swing.*;
+import enums.TempUnit;
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
+import javax.swing.*;
+import model.WeatherRecord;
 
 /**
- * Panel showing the current weather for all tracked cities in a simple list.
- * Observes the model so that it can update whenever the unit or the data changes.
+ * Panel showing the current weather for all tracked cities.
+ * Implements WeatherObserver to refresh automatically.
  */
 public class TrackedCitiesView extends JPanel implements WeatherObserver {
-    private final WeatherController controller;
     private DefaultListModel<String> listModel;
     private JList<String> cityList;
+    private TrackedCitiesListener listener;
 
-    public TrackedCitiesView(WeatherController controller) {
-        this.controller = controller;
+    public TrackedCitiesView() {
         initComponents();
-        controller.getModel().registerObserver(this);
     }
 
     private void initComponents() {
@@ -34,22 +29,24 @@ public class TrackedCitiesView extends JPanel implements WeatherObserver {
         cityList = new JList<>(listModel);
         cityList.setFont(new Font("Monospaced", Font.PLAIN, 12));
         add(new JScrollPane(cityList), BorderLayout.CENTER);
-        update();  // initial fill
     }
 
-    /** Fetches current tracked cities + weather from controller and repaints list. */
+    public void addRefreshListener(TrackedCitiesListener l) {
+        this.listener = l;
+    }
+
+    public void showTrackedCities(Map<String, WeatherRecord> data, TempUnit unit) {
+        listModel.clear();
+        data.forEach((city, rec) -> {
+            double t = rec.getTemperature();
+            String line = String.format("%-12s %6.1f°%s",
+                city, t, unit == TempUnit.CELSIUS ? "C" : "F");
+            listModel.addElement(line);
+        });
+    }
+
     @Override
     public void update() {
-        listModel.clear();
-        UnitType unit = controller.getModel().getUnit();
-        Map<String, WeatherRecord> map = controller.onRequestTrackedWeather();
-        for (Map.Entry<String, WeatherRecord> e : map.entrySet()) {
-            double t = e.getValue().getTemperature(unit);
-            String line = String.format("%-12s %6.1f°%s",
-                e.getKey(),
-                t,
-                unit == UnitType.CELSIUS ? "C" : "F");
-            listModel.addElement(line);
-        }
+        if (listener != null) listener.onRefreshRequested();
     }
 }

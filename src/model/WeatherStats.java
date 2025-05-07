@@ -1,7 +1,9 @@
+package model;
+
+import enums.WeatherStatKey;
 import exception.WeatherStatsNotValidException;
 import java.util.EnumMap;
 import java.util.Map;
-import enums.WeatherStatKey;
 
 /**
  * Represents a collection of weather-related statistics for various cities,

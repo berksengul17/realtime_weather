@@ -1,5 +1,6 @@
 package io;
 
+import enums.WeatherCondition;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.LocalDate;
@@ -7,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import enums.WeatherCondition;
 import model.City;
 import model.WeatherRecord;
 
