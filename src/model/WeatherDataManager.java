@@ -10,19 +10,22 @@ import view.WeatherObserver;
 public class WeatherDataManager implements WeatherSubject {
 
     private List<City> cities;
+    private List<City> trackedCities;
     private List<WeatherObserver> observers;
     private TempUnit tempUnit;
     private boolean isValid;
 
     public WeatherDataManager() {
         this.cities = new ArrayList<>();
+        this.trackedCities = new ArrayList<>();
         this.observers = new ArrayList<>();
         this.tempUnit = TempUnit.CELSIUS;
         this.isValid = false;
     }
 
-    public WeatherDataManager(List<City> cities, TempUnit tempUnit) {
+    public WeatherDataManager(List<City> cities, List<City> trackedCities, TempUnit tempUnit) {
         this.cities = cities;
+        this.trackedCities = trackedCities;
         this.tempUnit = tempUnit;
         this.observers = new ArrayList<>();
         this.isValid = true;
@@ -49,6 +52,15 @@ public class WeatherDataManager implements WeatherSubject {
 
     public void setTempUnit(TempUnit tempUnit) {
         this.tempUnit = tempUnit;
+    }
+
+    public List<City> getTrackedCities() throws WeatherDataManagerNotValidException {
+        checkValidity();
+        return trackedCities;
+    }
+
+    public void setTrackedCities(List<City> trackedCities) {
+        this.trackedCities = trackedCities;
     }
 
     @Override
