@@ -29,12 +29,12 @@ public class MainWindow extends JFrame {
                 setLayout(new BorderLayout(8,8));
         
                 JPanel top = new JPanel(new BorderLayout(8,8));
-                top.add(citySelectionView, BorderLayout.CENTER);
-                top.add(unitSelectionView, BorderLayout.EAST);
+                top.add((Component) citySelectionView, BorderLayout.CENTER);
+                top.add((Component) unitSelectionView, BorderLayout.EAST);
                 add(top, BorderLayout.NORTH);
         
-                add(trackedCitiesView, BorderLayout.CENTER);
-                add(statsView, BorderLayout.SOUTH);
+                add((Component) trackedCitiesView, BorderLayout.CENTER);
+                add((Component) statsView, BorderLayout.SOUTH);
 
         setSize(700,600);
         setLocationRelativeTo(null);
