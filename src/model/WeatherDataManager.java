@@ -12,7 +12,7 @@ public class WeatherDataManager implements WeatherSubject {
     private List<City> cities;
     private List<City> trackedCities;
     private List<WeatherObserver> observers;
-    private TempUnit tempUnit;
+    private TempUnit tempUnit;      
     private boolean isValid;
 
     public WeatherDataManager() {
