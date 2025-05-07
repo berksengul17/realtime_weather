@@ -1,4 +1,4 @@
-package main.java.model;
+package io;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import enums.WeatherCondition;
+import model.City;
+import model.WeatherRecord;
 
 public class CSVWeatherDataLoader implements IWeatherDataLoader {
     @Override

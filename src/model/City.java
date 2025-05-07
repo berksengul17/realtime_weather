@@ -1,3 +1,4 @@
+package model;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -15,10 +16,10 @@ public class City {
         this.weatherRecords = new ArrayList<>();
     }
     // Full Constructor
-    public City(String name, ArrayList<WeatherRecord> weatherRecords) 
+    public City(String name) 
     {
         this.name = name;
-        this.weatherRecords = weatherRecords;
+        this.weatherRecords = new ArrayList<>();
         this.isValidCity = true;
     }
     // Copy Constructor

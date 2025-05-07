@@ -1,4 +1,4 @@
-package main.java.model;
+package enums;
 
 public enum WeatherCondition {
     SUNNY("Sunny"),
@@ -6,7 +6,8 @@ public enum WeatherCondition {
     RAINY("Rainy"),
     SNOWY("Snowy"),
     PARTLY_CLOUDY("Partly Cloudy"),
-    HEAVY_SNOW("Heavy Snow");
+    HEAVY_SNOW("Heavy Snow"),
+    NONE("");
 
     private final String displayName;
 

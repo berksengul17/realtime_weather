@@ -1,7 +1,6 @@
 import java.time.LocalDate;
 
 public class WeatherRecord {
-    private String city;
     private LocalDate date;
     private Double temperature;
     private Double humidity;
@@ -12,7 +11,6 @@ public class WeatherRecord {
     // Default Constructor
     public WeatherRecord() 
     {
-        this.city = "";
         this.date = null;
         this.temperature = 0.0;
         this.humidity = 0.0;
@@ -21,9 +19,8 @@ public class WeatherRecord {
     }
 
     // Full Constructor
-    public WeatherRecord(String city, LocalDate date, double temperature, double humidity, double windSpeed, WeatherCondition weatherCondition) 
+    public WeatherRecord(LocalDate date, double temperature, double humidity, double windSpeed, WeatherCondition weatherCondition) 
     {
-        this.city = city;
         this.date = date;
         this.temperature = temperature;
         this.humidity = humidity;
@@ -34,18 +31,12 @@ public class WeatherRecord {
     // Copy Constructor
     public WeatherRecord(WeatherRecord weatherRecord) 
     {
-        this.city = weatherRecord.getCity();
         this.date = weatherRecord.getDate();
         this.temperature = weatherRecord.getTemperature();
         this.humidity = weatherRecord.getHumidity();
         this.windSpeed = weatherRecord.getWindSpeed();
         this.weatherCondition = weatherRecord.getWeatherCondition();
         this.isValidWeatherRecord = weatherRecord.isValidWeatherRecord();
-    }
-
-    public String getCity() 
-    {
-        return city;
     }
 
     public LocalDate getDate() 
@@ -76,11 +67,6 @@ public class WeatherRecord {
     public Boolean isValidWeatherRecord() 
     {
         return isValidWeatherRecord;
-    }
-
-    public void setCity(String city) 
-    {
-        this.city = city;
     }
 
     public void setDate(LocalDate date) 
