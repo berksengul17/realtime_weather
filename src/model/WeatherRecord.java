@@ -1,4 +1,7 @@
+package model;
 import java.time.LocalDate;
+
+import enums.WeatherCondition;
 
 public class WeatherRecord {
     private LocalDate date;
@@ -8,7 +11,7 @@ public class WeatherRecord {
     private WeatherCondition weatherCondition;
     private Boolean isValidWeatherRecord = false;
 
-    // Default Constructor
+    // Default Constructor 
     public WeatherRecord() 
     {
         this.date = null;
