@@ -1,28 +1,30 @@
 package controller;
 
+import model.City;
+import model.StatCalculator;
 import model.WeatherDataManager;
 import model.WeatherStats;
 import model.WeatherRecord;
 import enums.TempUnit;
 import exception.WeatherDataManagerNotValidException;
-import view.CitySelectionListener;
+import io.CSVWeatherDataLoader;
+import io.IWeatherDataLoader;
 import view.CitySelectionView;
 import view.MainWindow;
-import view.StatsListener;
 import view.StatsView;
-import view.TrackedCitiesListener;
 import view.TrackedCitiesView;
-import view.UnitSelectionListener;
 import view.UnitSelectionView;
 
 import javax.swing.SwingUtilities;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import view.WeatherObserver;
 
 public class WeatherController {
     private final WeatherDataManager model;
+    private final List<City> cities;
     private final MainWindow mainWindow;
     private final CitySelectionView citySelectionView;
     private final TrackedCitiesView trackedCitiesView;
@@ -31,6 +33,7 @@ public class WeatherController {
 
     public WeatherController(WeatherDataManager model) {
         this.model = model;
+        this.cities = loadCities();
 
         // 1) Instantiate views
         this.citySelectionView    = new CitySelectionView();
@@ -72,18 +75,26 @@ public class WeatherController {
 
         // Tracked-cities refresh (e.g. on startup or manual “refresh” button)
         trackedCitiesView.addRefreshListener((LocalDate date) -> {
-            Map<String, WeatherRecord> current;
+            Map<String, WeatherRecord> current = null;
             try {
                 current = model.getTrackedCitiesWeather(date);
             } catch (WeatherDataManagerNotValidException ex) {
             }
-            trackedCitiesView.showTrackedCities(current, model.getTempUnit());
+            try {
+                trackedCitiesView.showTrackedCities(current, model.getTempUnit());
+            } catch (WeatherDataManagerNotValidException e) {
+                e.printStackTrace();
+            }
         });
 
         // Stats panel request
         statsView.addStatsListener(() -> {
-            WeatherStats stats = model.calculateStats();
-            statsView.displayStats(stats, model.getTempUnit());
+            WeatherStats stats = StatCalculator.calculate(cities);
+            try {
+                statsView.displayStats(stats, model.getTempUnit());
+            } catch (WeatherDataManagerNotValidException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -91,9 +102,18 @@ public class WeatherController {
      * Kick off the app: load data & prefs, show UI, and trigger initial update.
      */
     public void initApp() {
-        model.loadData();
-        model.loadPreferences();
         SwingUtilities.invokeLater(() -> mainWindow.setVisible(true));
         model.notifyObservers();  // update all observer-views
+    }
+
+    public List<City> loadCities() {
+        IWeatherDataLoader loader = new CSVWeatherDataLoader();
+        try {
+            return loader.load("./weather_data.csv");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 }

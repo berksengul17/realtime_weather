@@ -14,22 +14,25 @@ public class WeatherDataManager implements WeatherSubject {
 
     private List<City> cities;
     private List<City> trackedCities;
+    private TempUnit tempUnit;
+    private LocalDate date;
     private List<WeatherObserver> observers;
-    private TempUnit tempUnit;      
     private boolean isValid;
 
     public WeatherDataManager() {
         this.cities = new ArrayList<>();
         this.trackedCities = new ArrayList<>();
-        this.observers = new ArrayList<>();
         this.tempUnit = TempUnit.CELSIUS;
+        this.date = LocalDate.now();
+        this.observers = new ArrayList<>();
         this.isValid = false;
     }
 
-    public WeatherDataManager(List<City> cities, List<City> trackedCities, TempUnit tempUnit) {
+    public WeatherDataManager(List<City> cities, List<City> trackedCities, TempUnit tempUnit, LocalDate date) {
         this.cities = cities;
         this.trackedCities = trackedCities;
         this.tempUnit = tempUnit;
+        this.date = date;
         this.observers = new ArrayList<>();
         this.isValid = true;
     }
@@ -76,6 +79,15 @@ public class WeatherDataManager implements WeatherSubject {
     
     public void setTrackedCities(List<City> trackedCities) {
         this.trackedCities = trackedCities;
+    }
+
+    public LocalDate getDate() throws WeatherDataManagerNotValidException {
+        checkValidity();
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import javax.swing.*;
 import model.WeatherRecord;
+import model.WeatherSubject;
 
 /**
  * Panel for choosing City & Date and displaying that day's weather.
@@ -104,7 +105,7 @@ public class CitySelectionView extends JPanel implements WeatherObserver {
     }
 
     @Override
-    public void update() {
+    public void update(WeatherSubject subject) {
         // Refresh current selection
         showButton.doClick();
     }

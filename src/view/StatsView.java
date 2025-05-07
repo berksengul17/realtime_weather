@@ -7,6 +7,7 @@ import exception.WeatherStatsNotValidException;
 import java.awt.*;
 import javax.swing.*;
 import model.WeatherStats;
+import model.WeatherSubject;
 
 /**
  * Panel displaying historical statistics.
@@ -66,7 +67,7 @@ public void displayStats(WeatherStats stats, TempUnit unit) {
 
 
     @Override
-    public void update() {
+    public void update(WeatherSubject subject) {
         if (listener != null) listener.onStatsRequested();
     }
 }

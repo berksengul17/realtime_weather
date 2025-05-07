@@ -2,6 +2,8 @@
 package view;
 
 import enums.TempUnit;
+import model.WeatherSubject;
+
 import java.awt.*;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -54,7 +56,7 @@ public class UnitSelectionView extends JPanel implements WeatherObserver {
      * Pulls the current unit from the supplied getter and refreshes the buttons.
      */
     @Override
-    public void update() {
+    public void update(WeatherSubject subject) {
         if (unitSupplier == null) {
             // No supplier set → nothing to do
             return;

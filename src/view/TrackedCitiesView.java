@@ -4,10 +4,15 @@
 package view;
 
 import enums.TempUnit;
+import exception.WeatherDataManagerNotValidException;
+
 import java.awt.*;
 import java.util.Map;
 import javax.swing.*;
+
+import model.WeatherDataManager;
 import model.WeatherRecord;
+import model.WeatherSubject;
 
 /**
  * Panel showing the current weather for all tracked cities.
@@ -46,7 +51,13 @@ public class TrackedCitiesView extends JPanel implements WeatherObserver {
     }
 
     @Override
-    public void update() {
-        if (listener != null) listener.onRefreshRequested();
+    public void update(WeatherSubject subject) {
+        WeatherDataManager dataManager = (WeatherDataManager) subject;
+        if (listener != null)
+            try {
+                listener.onRefreshRequested(dataManager.getDate());
+            } catch (WeatherDataManagerNotValidException e) {
+                e.printStackTrace();
+            }
     }
 }
