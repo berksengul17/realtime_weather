@@ -1,10 +1,9 @@
+import enums.WeatherStatKey;
 import java.time.Month;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Comparator;
-
-import enums.WeatherStatKey;
 import model.City;
 
 public class StatCalculator {

@@ -2,7 +2,8 @@ package model;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public class City {
     private String name;
@@ -55,29 +56,34 @@ public class City {
         this.weatherRecords = weatherRecords;
     }
 
-    /**
-     * Retrieve a valid WeatherRecord for the given date.
-     *
-     * @param date the LocalDate to search
-     * @return the matching WeatherRecord
-     * @throws IllegalArgumentException if date is null
-     * @throws NoSuchElementException if no valid record exists for that date
-     */
-    public WeatherRecord getRecord(LocalDate date) 
+    public void addWeatherRecord(WeatherRecord record) 
     {
-        if (date == null) {
+        if (!record.isValidWeatherRecord()) {
             throw new IllegalArgumentException(
-                "Date must not be null when fetching a weather record for city: " + name);
+                "WeatherRecord must not be null when adding to city: " + name);
         }
-        for (WeatherRecord record : weatherRecords) 
-        {
-            if (Boolean.TRUE.equals(record.isValidWeatherRecord())
-                && date.equals(record.getDate())) {
-                return record;
-            }
-        }
-        throw new NoSuchElementException(
-            "No valid weather record found for date " + date + " in city: " + name);
+        weatherRecords.add(record);
+
+    }
+
+    /**
+     * Helper: all valid records as a Stream.
+     */
+    private Stream<WeatherRecord> validRecords() {
+        return weatherRecords.stream()
+                             .filter(WeatherRecord::isValidWeatherRecord);
+    }
+
+    /**
+     * Helper: all valid records in a given month.
+     */
+    private Stream<WeatherRecord> validRecordsInMonth(Month month) {
+        Objects.requireNonNull(month, "Month must not be null");
+        return validRecords()
+               .filter(r -> {
+                   LocalDate d = r.getDate();
+                   return d != null && d.getMonth() == month;
+               });
     }
 
     /**
@@ -86,29 +92,12 @@ public class City {
      * @return the average temperature
      * @throws IllegalStateException if there are no valid records
      */
-    public double calculateAverageTemperature() 
-    {
-        if (weatherRecords == null || weatherRecords.isEmpty()) 
-        {
-            throw new IllegalStateException(
-                "No weather records available for city: " + name);
-        }
-
-        double sum = 0.0;
-        int count = 0;
-        for (WeatherRecord r : weatherRecords) {
-            if (Boolean.TRUE.equals(r.isValidWeatherRecord())) 
-            {
-                sum += r.getTemperature();
-                count++;
-            }
-        }
-        if (count == 0) 
-        {
-            throw new IllegalStateException(
-                "No valid weather records to calculate average temperature for city: " + name);
-        }
-        return sum / count;
+    public double calculateAverageTemperature() {
+        return validRecords()
+            .mapToDouble(WeatherRecord::getTemperature)
+            .average()
+            .orElseThrow(() ->
+                new IllegalStateException("No valid weather records to calculate average temperature for city: " + name));
     }
 
     /**
@@ -119,37 +108,12 @@ public class City {
      * @throws IllegalArgumentException if month is null
      * @throws IllegalStateException    if no valid records exist for that month
      */
-    public double getLowestTemperatureInMonth(Month month) 
-    {
-        if (month == null) 
-        {
-            throw new IllegalArgumentException("Month must not be null");
-        }
-
-        double lowest = Double.MAX_VALUE;
-        boolean found = false;
-        for (WeatherRecord r : weatherRecords) 
-        {
-            if (Boolean.TRUE.equals(r.isValidWeatherRecord())
-                    && r.getDate() != null
-                    && r.getDate().getMonth() == month) 
-                    {
-
-                double t = r.getTemperature();
-                if (t < lowest) 
-                {
-                    lowest = t;
-                }
-                found = true;
-            }
-        }
-        if (!found) 
-        {
-            throw new IllegalStateException(
-                "No valid weather records found for " + month +
-                " in city: " + name);
-        }
-        return lowest;
+    public double getLowestTemperatureInMonth(Month month) {
+        return validRecordsInMonth(month)
+            .mapToDouble(WeatherRecord::getTemperature)
+            .min()
+            .orElseThrow(() ->
+                new IllegalStateException("No valid weather records found for " + month + " in city: " + name));
     }
 
     /**
@@ -160,33 +124,12 @@ public class City {
      * @throws IllegalArgumentException if month is null
      * @throws IllegalStateException    if no valid records exist for that month
      */
-    public double calculateAverageHumidityInMonth(Month month) 
-    {
-        if (month == null) 
-        {
-            throw new IllegalArgumentException("Month must not be null");
-        }
-
-        double sum = 0.0;
-        int count = 0;
-        for (WeatherRecord r : weatherRecords) 
-        {
-            if (Boolean.TRUE.equals(r.isValidWeatherRecord())
-                    && r.getDate() != null
-                    && r.getDate().getMonth() == month) 
-                    {
-
-                sum += r.getHumidity();
-                count++;
-            }
-        }
-        if (count == 0) 
-        {
-            throw new IllegalStateException(
-                "No valid weather records found for humidity in " +
-                month + " for city: " + name);
-        }
-        return sum / count;
+    public double calculateAverageHumidityInMonth(Month month) {
+        return validRecordsInMonth(month)
+            .mapToDouble(WeatherRecord::getHumidity)
+            .average()
+            .orElseThrow(() ->
+                new IllegalStateException("No valid weather records found for humidity in " + month + " for city: " + name));
     }
 
     /**
@@ -197,31 +140,11 @@ public class City {
      * @throws IllegalArgumentException if month is null
      * @throws IllegalStateException    if no valid records exist for that month
      */
-    public double calculateAverageWindSpeedInMonth(Month month) 
-    {
-        if (month == null) 
-        {
-            throw new IllegalArgumentException("Month must not be null");
-        }
-
-        double sum = 0.0;
-        int count = 0;
-        for (WeatherRecord r : weatherRecords) 
-        {
-            if (Boolean.TRUE.equals(r.isValidWeatherRecord())
-                    && r.getDate() != null
-                    && r.getDate().getMonth() == month) {
-
-                sum += r.getWindSpeed();
-                count++;
-            }
-        }
-        if (count == 0) 
-        {
-            throw new IllegalStateException(
-                "No valid weather records found for wind speed in " +
-                month + " for city: " + name);
-        }
-        return sum / count;
+    public double calculateAverageWindSpeedInMonth(Month month) {
+        return validRecordsInMonth(month)
+            .mapToDouble(WeatherRecord::getWindSpeed)
+            .average()
+            .orElseThrow(() ->
+                new IllegalStateException("No valid weather records found for wind speed in " + month + " for city: " + name));
     }
 }

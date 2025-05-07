@@ -1,7 +1,6 @@
 package model;
-import java.time.LocalDate;
-
 import enums.WeatherCondition;
+import java.time.LocalDate;
 
 public class WeatherRecord {
     private LocalDate date;
