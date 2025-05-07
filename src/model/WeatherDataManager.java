@@ -4,7 +4,10 @@ import enums.TempUnit;
 import exception.WeatherDataManagerNotValidException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import view.WeatherObserver;
 
 public class WeatherDataManager implements WeatherSubject {
@@ -59,6 +62,18 @@ public class WeatherDataManager implements WeatherSubject {
         return trackedCities;
     }
 
+    public Map<String, WeatherRecord> getTrackedCitiesWeather(LocalDate date) throws WeatherDataManagerNotValidException {
+        checkValidity();
+        Map<String, WeatherRecord> records = new HashMap<>();
+    
+        for (City city : trackedCities) {
+            WeatherRecord record = city.getRecordByDate(date);
+            records.put(city.getName(), record);
+        }
+    
+        return records;
+    }
+    
     public void setTrackedCities(List<City> trackedCities) {
         this.trackedCities = trackedCities;
     }
