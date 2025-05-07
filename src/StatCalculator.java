@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Comparator;
 
 import enums.WeatherStatKey;
+import model.City;
 
 public class StatCalculator {
 
