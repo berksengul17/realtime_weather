@@ -66,6 +66,14 @@ public class City {
 
     }
 
+    public WeatherRecord getRecordByDate(LocalDate date) {
+        return validRecords()
+                .filter(r -> r.getDate() != null && r.getDate().equals(date))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                    "No valid weather record found for " + date + " in city: " + name));
+    }    
+
     /**
      * Helper: all valid records as a Stream.
      */
