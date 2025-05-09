@@ -1,4 +1,3 @@
-// File: src/view/CitySelectionView.java
 package view;
 
 import enums.TempUnit;
@@ -35,16 +34,15 @@ public class CitySelectionView extends JPanel implements WeatherObserver {
         // Minimal padding for a more compact layout
         setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createTitledBorder("Select City & Date"),
-            BorderFactory.createEmptyBorder(3, 5, 5, 5) // Reduced padding
+            BorderFactory.createEmptyBorder(3, 5, 5, 5)
         ));
         
-        // Use a BorderLayout with controls on the left and weather info on the right
-        setLayout(new BorderLayout(15, 5)); // Reduced spacing between components
+        setLayout(new BorderLayout(15, 5));
         
         // Left panel - Selection controls
         JPanel leftPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(3, 3, 3, 3); // Reduced insets for more compact layout
+        gbc.insets = new Insets(3, 3, 3, 3);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 

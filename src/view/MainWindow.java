@@ -1,4 +1,3 @@
-// File: src/view/MainWindow.java
 package view;
 
 import java.awt.*;

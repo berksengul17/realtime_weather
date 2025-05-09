@@ -1,4 +1,3 @@
-// File: src/view/TrackedCitiesView.java
 package view;
 
 import enums.TempUnit;
