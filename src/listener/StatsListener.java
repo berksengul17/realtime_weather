@@ -1,4 +1,4 @@
-package view;
+package listener;
 
 @FunctionalInterface
 public interface StatsListener {

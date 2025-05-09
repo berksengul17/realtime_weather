@@ -4,6 +4,8 @@ package view;
 import enums.TempUnit;
 import enums.WeatherStatKey;
 import exception.WeatherStatsNotValidException;
+import listener.StatsListener;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

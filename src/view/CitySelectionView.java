@@ -2,8 +2,9 @@
 package view;
 
 import enums.TempUnit;
+import listener.CitySelectionListener;
+
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -23,7 +24,6 @@ public class CitySelectionView extends JPanel implements WeatherObserver {
     private JSpinner dateSpinner;
     private JButton showButton;
     private JLabel tempLabel, humidityLabel, windLabel, conditionLabel;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private CitySelectionListener listener;
 

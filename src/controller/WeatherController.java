@@ -38,10 +38,10 @@ public class WeatherController {
         this.model = new WeatherDataManager(cities, trackedCities, TempUnit.CELSIUS, LocalDate.now());
 
         // 1) Instantiate views
-        this.citySelectionView    = new CitySelectionView();
-        this.trackedCitiesView    = new TrackedCitiesView();
-        this.statsView            = new StatsView();
-        this.unitSelectionView    = new UnitSelectionView();
+        this.citySelectionView = new CitySelectionView();
+        this.trackedCitiesView = new TrackedCitiesView();
+        this.statsView = new StatsView();
+        this.unitSelectionView = new UnitSelectionView();
 
         // 2) Create and wire up the main window
         this.mainWindow = new MainWindow(
@@ -67,6 +67,7 @@ public class WeatherController {
             } catch (NoSuchElementException ex) {
                 citySelectionView.showError("No data for " + city + " on " + date);
             } catch (WeatherDataManagerNotValidException ex) {
+                ex.printStackTrace();
             }
         });
 
@@ -101,7 +102,7 @@ public class WeatherController {
     }
 
     /** 
-     * Kick off the app: load data & prefs, show UI, and trigger initial update.
+     * Kick off the app
      */
     public void initApp() {
         SwingUtilities.invokeLater(() -> mainWindow.setVisible(true));
