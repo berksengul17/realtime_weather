@@ -11,6 +11,7 @@ import io.CSVWeatherDataLoader;
 import io.IWeatherDataLoader;
 import view.CitySelectionView;
 import view.MainWindow;
+import view.MultipleCitySelectionView;
 import view.StatsView;
 import view.TrackedCitiesView;
 import view.UnitSelectionView;
@@ -19,6 +20,7 @@ import javax.swing.SwingUtilities;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -31,6 +33,7 @@ public class WeatherController {
     private final TrackedCitiesView trackedCitiesView;
     private final StatsView statsView;
     private final UnitSelectionView unitSelectionView;
+    private final MultipleCitySelectionView multipleCitySelectionView;
 
     public WeatherController() {
         this.cities = loadCities();
@@ -42,13 +45,15 @@ public class WeatherController {
         this.trackedCitiesView = new TrackedCitiesView();
         this.statsView = new StatsView();
         this.unitSelectionView = new UnitSelectionView();
+        this.multipleCitySelectionView = new MultipleCitySelectionView();
 
         // 2) Create and wire up the main window
         this.mainWindow = new MainWindow(
             citySelectionView,
             unitSelectionView,
             trackedCitiesView,
-            statsView
+            statsView,
+            multipleCitySelectionView
         );
 
         // 3) Register view-components as observers of the model
@@ -56,6 +61,7 @@ public class WeatherController {
         model.addObserver(trackedCitiesView);
         model.addObserver(statsView);
         model.addObserver(unitSelectionView);
+        model.addObserver(multipleCitySelectionView);
 
         // 4) Wire view events → controller logic
 
@@ -98,6 +104,23 @@ public class WeatherController {
             } catch (WeatherDataManagerNotValidException e) {
                 e.printStackTrace();
             }
+        });
+
+        multipleCitySelectionView.addMultipleCitySelectionListener(selectedCities -> {
+            Map<String, WeatherRecord> data = new HashMap<>();
+
+            for (String city : selectedCities) {
+                try {
+                    WeatherRecord record = model.getWeather(city, model.getDate());
+                    if (record != null) {
+                        data.put(city, record);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            multipleCitySelectionView.showComparedCities(data);
         });
     }
 

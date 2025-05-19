@@ -88,16 +88,17 @@ public class CitySelectionView extends JPanel implements WeatherObserver {
         leftPanel.add(dateSpinner, gbc);
         gbc.weightx = 0.0;
 
-        // Show button - under the date field
-        gbc.gridx = 0; gbc.gridy = 2;
-        gbc.gridwidth = 1; // Changed to span a single column
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2; // Span across two columns
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(5, 3, 3, 3); // Less space above the button
+        gbc.insets = new Insets(5, 3, 3, 3);
+        
         showButton = new JButton("Show");
         showButton.setFont(new Font(showButton.getFont().getName(), Font.BOLD, 12));
-        showButton.setPreferredSize(new Dimension(90, 25)); // Smaller button
-        leftPanel.add(showButton, gbc);
+        showButton.setPreferredSize(new Dimension(90, 25));
+        leftPanel.add(showButton, gbc);        
         
         gbc.gridx = 1; 
         

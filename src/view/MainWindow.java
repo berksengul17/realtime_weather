@@ -11,17 +11,19 @@ public class MainWindow extends JFrame {
         WeatherObserver citySelectionView,
         WeatherObserver unitSelectionView,
         WeatherObserver trackedCitiesView,
-        WeatherObserver statsView
+        WeatherObserver statsView,
+        WeatherObserver multipleCitySelectionView
     ) {
         super("Realtime Weather");
-        initUI(citySelectionView, unitSelectionView, trackedCitiesView, statsView);
+        initUI(citySelectionView, unitSelectionView, trackedCitiesView, statsView, multipleCitySelectionView);
     }
 
     private void initUI(
         WeatherObserver citySelectionView,
         WeatherObserver unitSelectionView,
         WeatherObserver trackedCitiesView,
-        WeatherObserver statsView
+        WeatherObserver statsView,
+        WeatherObserver multipleCitySelectionView
     ) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(8, 8));
@@ -49,11 +51,14 @@ public class MainWindow extends JFrame {
         // Add the content panel to the main layout
         add(contentPanel, BorderLayout.CENTER);
 
+        JComponent multipleCitySelectionComponent = (JComponent) multipleCitySelectionView;
+        add(multipleCitySelectionComponent, BorderLayout.SOUTH);
+
         // Use pack() instead of hardcoded size to ensure optimal component sizes
         pack();
         
         // Set a minimum size for the window
-        setMinimumSize(new Dimension(700, 550));
+        setMinimumSize(new Dimension(800, 700));
         
         // Set initial size that better fits the content
         setSize(750, 600);
