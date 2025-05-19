@@ -2,13 +2,13 @@ package model;
 
 import enums.TempUnit;
 import exception.WeatherDataManagerNotValidException;
+import view.WeatherObserver;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import view.WeatherObserver;
 
 public class WeatherDataManager implements WeatherSubject {
 

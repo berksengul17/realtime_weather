@@ -63,8 +63,6 @@ public class WeatherController {
         model.addObserver(unitSelectionView);
         model.addObserver(multipleCitySelectionView);
 
-        // 4) Wire view events → controller logic
-
         // City / Date selection
         citySelectionView.addCitySelectionListener((String city, LocalDate date) -> {
             try {
@@ -124,9 +122,6 @@ public class WeatherController {
         });
     }
 
-    /** 
-     * Kick off the app
-     */
     public void initApp() {
         SwingUtilities.invokeLater(() -> mainWindow.setVisible(true));
         model.notifyObservers();  // update all observer-views

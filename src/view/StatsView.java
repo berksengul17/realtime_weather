@@ -15,7 +15,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class StatsView extends JPanel implements WeatherObserver {
-    private final EnumMap<WeatherStatKey, JLabel> statLabels = 
+    private final Map<WeatherStatKey, JLabel> statLabels = 
         new EnumMap<>(WeatherStatKey.class);
     private StatsListener listener;
 

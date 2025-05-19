@@ -7,11 +7,12 @@ import model.WeatherSubject;
 import javax.swing.*;
 import java.awt.*;
 import java.util.EnumMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class UnitSelectionView extends JPanel implements WeatherObserver {
     // map one button per unit
-    private final EnumMap<TempUnit, JRadioButton> buttons =
+    private final Map<TempUnit, JRadioButton> buttons =
         new EnumMap<>(TempUnit.class);
     private UnitSelectionListener listener;
     private Supplier<TempUnit> unitSupplier;

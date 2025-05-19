@@ -96,29 +96,6 @@ public class TrackedCitiesView extends JPanel implements WeatherObserver {
     }
 
     @Override
-    public Dimension getPreferredSize() {
-        if (isPreferredSizeSet()) {
-            return super.getPreferredSize();
-        }
-        
-        // Calculate height based on the number of items, with reduced padding
-        int rowCount = Math.max(1, listModel.getSize());
-        int titleHeight = 25; // Height for the title border
-        int paddingHeight = 10; // Reduced padding height
-        int listHeight = rowCount * ROW_HEIGHT;
-        int totalHeight = titleHeight + listHeight + paddingHeight;
-        
-        return new Dimension(super.getPreferredSize().width, totalHeight);
-    }
-
-    @Override
-    public Dimension getMaximumSize() {
-        // Ensure maximum height matches preferred height
-        Dimension pref = getPreferredSize();
-        return new Dimension(super.getMaximumSize().width, pref.height);
-    }
-
-    @Override
     public void update(WeatherSubject subject) {
         WeatherDataManager dataManager = (WeatherDataManager) subject;
         if (listener != null)

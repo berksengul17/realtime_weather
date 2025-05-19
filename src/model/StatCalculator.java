@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class StatCalculator {
 
@@ -62,7 +63,7 @@ public class StatCalculator {
      * This overload allows comparison by extracted values (e.g., temperature in a specific month).
      */
     private static String cityWithExtreme(List<City> cities,
-                                          java.util.function.Function<City, Double> valueExtractor,
+                                          Function<City, Double> valueExtractor,
                                           Comparator<Double> comparator) {
         return cities.stream()
             .map(city -> Map.entry(city.getName(), valueExtractor.apply(city)))
